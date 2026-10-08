@@ -2,6 +2,13 @@
 
 > **Important: this is NOT a licence-unlocked app. `SHADOWMODZ` is the requested new key, but it has not been installed as a working replacement licence. The original native licensing remains unchanged.**
 
+## Download
+
+- [GitHub testing prerelease](https://github.com/demoneditz985-ctrl/OwnE/releases/tag/shadow-modz-branding-test-v0.1.0)
+- [Direct APK download — 20.9 MiB](https://github.com/demoneditz985-ctrl/OwnE/raw/957a1058f3950c13d984f124b476635aa62c8c56/artifacts/Shadow-Modz-branding-test.apk)
+
+The APK is hosted at a pinned repository commit and linked from the prerelease notes. It is not attached as a binary release asset: the workspace could not reach GitHub's release-asset upload endpoint. The direct link downloads the same signed branding-test APK described below.
+
 This repository originally contained only `KOS_3.7-VStable.apk`, not the Android project or native source. The owner's latest request is a single key named **`SHADOWMODZ`**, plus the **Shadow Modz** name, black/purple styling, and [Telegram invite](https://t.me/+BBimnHMiSvpiYTBl).
 
 ## Delivered

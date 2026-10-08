@@ -2,6 +2,14 @@
 
 **Branding-only testing prerelease. `SHADOWMODZ` is NOT a working replacement licence key. The original native licensing is unchanged.**
 
+## Downloads
+
+- **[Download Shadow Modz APK (20.9 MiB)](https://github.com/demoneditz985-ctrl/OwnE/raw/957a1058f3950c13d984f124b476635aa62c8c56/artifacts/Shadow-Modz-branding-test.apk)**
+- [APK SHA-256 checksum](https://github.com/demoneditz985-ctrl/OwnE/blob/957a1058f3950c13d984f124b476635aa62c8c56/artifacts/Shadow-Modz-branding-test.apk.sha256)
+- [Static APK audit report](https://github.com/demoneditz985-ctrl/OwnE/blob/957a1058f3950c13d984f124b476635aa62c8c56/artifacts/branding-test-report.json)
+
+The APK is hosted in this repository at the pinned build commit. It is linked here rather than attached as a binary release asset because the build workspace could not reach GitHub's release-asset upload endpoint. The APK bytes match the verified checksum below.
+
 ## Included
 
 - Shadow Modz app label, new launcher/round/adaptive icons, and splash emblem.
