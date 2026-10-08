@@ -115,6 +115,8 @@ def audit(signed: Path, verification: str, mode: str = "branding",
     from androguard.core.apk import APK
     from androguard.core.dex import DEX
 
+    if mode not in ["branding", "resource-only", "local-gate"]:
+        raise ValueError("Unknown audit mode.")
     config = json.loads((ROOT / "branding/config.json").read_text())
     original_path = ROOT / config["originalApk"]
     if file_hash(original_path) != config["originalApkSha256"]:
@@ -123,14 +125,29 @@ def audit(signed: Path, verification: str, mode: str = "branding",
     original = APK(str(original_path))
     if apk.get_app_name() != config["appName"]:
         raise ValueError("Compiled app label does not match the requested brand.")
-    for method in ["get_package", "get_main_activity", "get_androidversion_code",
+    for method in ["get_package", "get_androidversion_code",
                    "get_androidversion_name", "get_min_sdk_version", "get_target_sdk_version"]:
         if getattr(apk, method)() != getattr(original, method)():
             raise ValueError(f"Original manifest metadata changed unexpectedly: {method}")
+    expected_main = "com.shadowmodz.KeyActivity" if mode == "local-gate" else original.get_main_activity()
+    if apk.get_main_activity() != expected_main:
+        raise ValueError("Unexpected launcher activity.")
+    if mode == "local-gate":
+        xml = apk.get_android_manifest_xml()
+        android = "{http://schemas.android.com/apk/res/android}"
+        application = xml.find("application")
+        if application.get(android + "name") != "com.kos.App":
+            raise ValueError("Original native Application class changed.")
+        if application.get(android + "appComponentFactory") != "com.shadowmodz.GateComponentFactory":
+            raise ValueError("New gate factory is not installed.")
+        main = next(a for a in application.findall("activity") if a.get(android + "name") == "com.kos.MainActivity")
+        if main.get(android + "exported") != "false":
+            raise ValueError("Original main activity must not remain externally exported.")
     if set(apk.get_permissions()) != set(original.get_permissions()):
         raise ValueError("APK permissions changed unexpectedly.")
     native_hashes = {}
     dex_hashes = {}
+    gate_checks = {}
     with zipfile.ZipFile(original_path) as old, zipfile.ZipFile(signed) as new:
         for info in old.infolist():
             if info.filename.endswith(".so"):
@@ -144,16 +161,22 @@ def audit(signed: Path, verification: str, mode: str = "branding",
             raise ValueError("resources.arsc must remain uncompressed.")
         if mode == "resource-only":
             dex_hashes = verify_dex_bytes(old, new)
+        elif mode == "local-gate":
+            from local_gate import verify_primary_dex, verify_gate_dex
+            if {n for n in new.namelist() if DEX_NAME.fullmatch(n)} != {"classes.dex", "classes2.dex"}:
+                raise ValueError("Unexpected local-gate DEX inventory.")
+            gate_checks = {**verify_primary_dex(old.read("classes.dex"), new.read("classes.dex")),
+                           **verify_gate_dex(new.read("classes2.dex"))}
     protected_classes = [
         "Lcom/kos/Native/NativeBridge;", "La/a/a/b;", "La/a/a/c;",
         "Landroidx/emoji2/text/c3;", "Landroidx/emoji2/text/h3;", "Landroidx/emoji2/text/ao0;",
     ]
-    if mode == "branding":
+    if mode in ["branding", "local-gate"]:
         old_dex, new_dex = DEX(original.get_dex()), DEX(apk.get_dex())
         for cls in protected_classes:
             if dex_method_fingerprints(old_dex, cls) != dex_method_fingerprints(new_dex, cls):
                 raise ValueError(f"Protected/native licensing path changed unexpectedly: {cls}")
-        for cls in ["Lcom/shadowmodz/Branding;", "Lcom/shadowmodz/TelegramAction;"]:
+        for cls in (["Lcom/shadowmodz/Branding;", "Lcom/shadowmodz/TelegramAction;"] if mode == "branding" else []):
             if new_dex.get_class(cls) is None:
                 raise ValueError(f"New branding helper missing: {cls}")
     report = json.loads((report_file or ROOT / ".work/branding-report.json").read_text())
@@ -173,7 +196,7 @@ def audit(signed: Path, verification: str, mode: str = "branding",
         "runtimeTested": False,
         "licenseReplacementImplemented": False,
     })
-    if mode == "resource-only":
+    if mode in ["resource-only", "local-gate"]:
         previous = json.loads((ROOT / "artifacts/branding-test-report.json").read_text())
         old_digest = certificate_digest("\n".join(previous["apkSignatureVerification"]))
         new_digest = certificate_digest(verification)
@@ -185,6 +208,10 @@ def audit(signed: Path, verification: str, mode: str = "branding",
         })
     else:
         report["warning"] = "Branding test only. SHADOWMODZ is not configured as a working replacement licence. Native licence/integrity checks may reject this re-signed APK."
+    if mode == "local-gate":
+        report.pop("originalDexBytesVerifiedUnchanged", None)
+        report.update(gate_checks)
+        report["warning"] = "Local SHADOWMODZ entry lock only. Original native engine entitlements and startup remain unchanged. Old licence UI suppressed; no native-engine unlock or Android startup success has been verified."
     return report
 
 
@@ -192,7 +219,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--java", required=True)
     parser.add_argument("--keytool", required=True)
-    parser.add_argument("--mode", choices=["branding", "resource-only"], default="branding")
+    parser.add_argument("--mode", choices=["branding", "resource-only", "local-gate"], default="branding")
     parser.add_argument("--aligned", type=Path)
     parser.add_argument("--signed-intermediate", type=Path)
     parser.add_argument("--report-file", type=Path)

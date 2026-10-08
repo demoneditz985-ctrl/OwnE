@@ -1,5 +1,7 @@
 # APK assessment and remaining licensing blocker
 
+> **UI-only update:** v0.2.0 adds a new local `SHADOWMODZ` launcher lock and suppresses the legacy licence dialog. It does not replace native entitlements or fix native startup. See [local key gate scope](local-key-gate.md). The native activation paths assessed below remain unchanged.
+
 > **Runtime update:** the user reported that the first branding-test APK crashes; the Android version, crash point and exception have not been supplied. A resource-only diagnostic candidate now preserves the entire original DEX byte-for-byte. See [crash diagnosis](crash-diagnosis.md). Neither a startup fix nor a replacement licence is verified.
 
 ## Available input

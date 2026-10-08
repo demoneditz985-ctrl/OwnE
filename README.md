@@ -1,72 +1,72 @@
-# Shadow Modz — startup compatibility test
+# Shadow Modz — local key gate UI test
 
-> **The first branding-test build has a user-reported crash. The new compatibility test is a diagnostic candidate, not a confirmed crash fix. `SHADOWMODZ` and "any random key works" are not implemented. Native licensing remains unchanged.**
+> **The new local entry screen supports `SHADOWMODZ`, and the old licence dialog renderer is suppressed. This is NOT a native-engine licence unlock or a verified crash fix. Native startup and entitlements remain unchanged.**
 
 ## Current download
 
-- [Compatibility testing prerelease v0.1.1](https://github.com/demoneditz985-ctrl/OwnE/releases/tag/shadow-modz-compatibility-test-v0.1.1)
-- [Download compatibility-test APK — 20.6 MiB](https://github.com/demoneditz985-ctrl/OwnE/raw/shadow-modz-compatibility-test-v0.1.1/artifacts/Shadow-Modz-compatibility-test.apk)
-- [Crash investigation and optional logcat instructions](docs/crash-diagnosis.md)
+- [Local-gate testing prerelease v0.2.0](https://github.com/demoneditz985-ctrl/OwnE/releases/tag/shadow-modz-local-gate-test-v0.2.0)
+- [Download local-gate test APK — 20.6 MiB](https://github.com/demoneditz985-ctrl/OwnE/raw/shadow-modz-local-gate-test-v0.2.0/artifacts/Shadow-Modz-local-gate-test.apk)
+- Key for this **local entry screen**: **`SHADOWMODZ`**
+- [How the new gate works, and what it does not unlock](docs/local-key-gate.md)
 
-APK downloads are linked from release notes and hosted in this repository. Binary release-asset uploads are blocked by the workspace's network restrictions.
+APK downloads are linked from release notes and hosted in the repository. Binary release-asset uploads are blocked by the workspace's network restrictions.
 
-## What changed after the crash report?
+## New UI-only implementation
 
-The initial cosmetic build reassembled the entire DEX and added two branding/contact helpers. It passed compilation, signature and selected-class static checks, but the user subsequently reported a crash with no error/device details.
+The latest request permits replacing the old licence/login page with a new Shadow Modz key page. This test rebuild starts from the untouched original APK, fully decompiles it for inspection, and implements:
 
-The compatibility candidate instead:
+- A new black/purple launcher entry screen, Shadow Modz name/emblem and Telegram button.
+- Case-sensitive `SHADOWMODZ` validation, rejecting wrong/random/empty keys.
+- Private preference storage of local acceptance; opening the original main activity requires a successful save and a rechecked local proof.
+- Suppression of only the legacy licence-dialog renderer, with a **four-byte** in-place primary-DEX patch and recomputed header digests.
+- Four new classes in a supplemental DEX, not wholesale reassembly of the original code.
+- A private original main activity and, on API 28+, component-factory routing for unaccepted attempts to instantiate it.
+- Shadow Modz Android label, launcher icons, animated splash vector and resource colours.
+- Exact Telegram invite: https://t.me/+BBimnHMiSvpiYTBl
 
-- Uses Apktool **`--no-src`**, preserving the **complete original DEX byte-for-byte**.
-- Removes the injected Compose text hook, Compose colour edits and Telegram callback.
-- Retains the **Shadow Modz** Android label, launcher icons and black/purple Android resource colours.
-- Preserves the original animated splash drawable/type and animator target, changing only its vector emblem.
-- Preserves native libraries, package, launcher, permissions, version and SDK requirements.
-- Reuses the previous local test signing certificate, when present; the published candidate's certificate matches v0.1.0.
-- Passes **22** unit/regression tests and APK signature/static audits.
+**Native initialization still happens before any activity.** A native signing/integrity fault can still prevent the new screen appearing. The original native activation, bootstrap and game/virtual-app entitlement checks remain intact. Even a successful local entry does not prove protected features work.
 
-This removes potential bytecode/layout regressions. It does **not** identify the actual crash cause or establish that the packed native library accepts re-signing. There is no attached Android device or emulator.
+This embedded shared-key lock is not a secure DRM service: the key/proof can be extracted, shared, restored or modified. No expiry, device limit or server enforcement is implemented. On API 24–27 AppComponentFactory routing is unavailable; the new launcher route still uses the form.
 
-### Trade-offs
+Some original Compose/native KOS branding and blue colours remain because that code is deliberately not globally rewritten.
 
-Some Compose/native KOS text and blue colours remain because original code is deliberately preserved. The compatibility candidate does not inject a Telegram action. The requested invite is still documented: https://t.me/+BBimnHMiSvpiYTBl
+## Checks completed
 
-## Licence status
+**32** unit/regression tests passed. The pure-string key validator is tested against actual compiled instructions using a deliberately limited interpreter; this is **not** Android/JNI emulation. Audits check the exact permitted original-DEX change, unchanged native/licensing method fingerprints and `.so` bytes, new classes, compiled manifest routing, name/package/SDK/permissions, v2/v3 signatures and ZIP alignment.
 
-The original key format, native activation (`NativeBridge.d(..., 1009)`), native setup and engine checks are unchanged. No fake success callback or unconditional "all keys valid" result has been added. A key input comparison alone would not prove that the engine accepts a new entitlement.
+No Android device/emulator is attached. Activity lifecycle, phone persistence, startup, original main UI and native features are untested. The initial branding build had a user-reported crash, with no crash trace or Android details supplied. [Crash investigation](docs/crash-diagnosis.md).
 
-The repository contains an APK only; no native source, licence-service project or original signing key was recovered. [APK assessment](docs/apk-assessment.md).
+## Installing/testing
 
-A single shared key also does not securely enforce device limits or first-use expiry. No GitHub Pages generator/backend was built for the latest single-key request.
-
-## Testing
-
-- Requires ARM64 Android 7.0/API 24+.
-- Package remains `com.kos`, version code 28, preserving JNI references and native metadata expectations.
-- The candidate's certificate matches the earlier **Shadow Modz test APK**, allowing an in-place update of that test installation under normal Android rules. It does **not** match the original KOS signing identity.
-- No phone data is cleared by the build scripts.
-- If it still closes, send the phone model, Android version and where it closes (startup, activation or game launch). A relevant exception/native crash trace is needed to identify the actual fault. Do not send credentials or a full unfiltered device report.
+- ARM64 Android 7/API 24+; package `com.kos`, version code 28.
+- The published test uses the same test certificate as prior Shadow Modz test APKs and can update those under normal Android rules. It does not match the original KOS certificate.
+- Build scripts do not clear phone data.
+- If it closes, report the phone model, Android version, crash point and relevant exception/native signal. Do not send credentials or a full unfiltered device report.
 
 ## Build
 
-Linux, Python 3.11+, npm and first-run npm/PyPI access are required. Pinned tooling is bootstrapped into ignored `.tools/`; npm lifecycle scripts are not executed.
+Linux, Python 3.11+, npm and first-run npm/PyPI access are required. Tooling is pinned and installed into ignored `.tools/`; npm lifecycle scripts are not executed.
 
 ```bash
-# Conservative diagnostic candidate: original DEX, resources-only patch
+# Latest: local key form + legacy UI suppression; native engine unchanged
+bash scripts/build_local_gate_test.sh
+
+# Diagnostic alternative: completely untouched DEX, resources-only rebrand
 bash scripts/build_compatibility_test.sh
 
-# Historical code-patched build, now user-reported crashing
+# Historical code-reassembled build, user-reported crashing
 bash scripts/build_branding_test.sh
 
-# Tests after the tool bootstrap
 PYTHONPATH=.tools/python python3 -m unittest discover -s tests -v
 ```
 
-Both pipelines preserve `KOS_3.7-VStable.apk`, align stored native libraries to 16 KiB, test-sign with a locally generated certificate and verify the output before writing deliverables.
+The keystore/password remain private under ignored `.work/private-signing/`; never commit them. A fresh workspace without that keystore generates a different certificate. The audit explicitly checks whether it matches the previous test.
 
-The test keystore and its random password are in ignored `.work/private-signing/` with restricted permissions. They are not an app licence or the original signing key. Never commit them. A fresh workspace without that keystore generates a different test certificate; the report explicitly records whether the previous test certificate matches.
+Full decompile/build intermediates are ignored; they are not recovered native C/C++ source. The repository contains no recovered native project, licence-service project or original signing key. [Original APK assessment](docs/apk-assessment.md). No GitHub Pages generator/backend was built for the single-key request.
 
-## Artifacts
+## Artifact history
 
-- `artifacts/Shadow-Modz-compatibility-test.apk`, `.sha256`, `compatibility-test-report.json` — current resource-only diagnostic candidate.
-- `artifacts/Shadow-Modz-branding-test.apk`, `.sha256`, `branding-test-report.json` — historical cosmetic build with a user-reported crash; retained for comparison, **not recommended**.
+- `artifacts/Shadow-Modz-local-gate-test.apk`, `.sha256`, `local-gate-test-report.json` — new local entry gate, native entitlement replacement **not** implemented.
+- `artifacts/Shadow-Modz-compatibility-test.apk`, `.sha256`, `compatibility-test-report.json` — resource-only startup diagnostic, full original DEX retained.
+- `artifacts/Shadow-Modz-branding-test.apk`, `.sha256`, `branding-test-report.json` — initial cosmetic build, user-reported crash; **not recommended**.
 - `KOS_3.7-VStable.apk` — original input, untouched.
