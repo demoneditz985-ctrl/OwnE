@@ -1,0 +1,24 @@
+# Local tooling and decoded APK intermediates
+.tools/
+.work/
+node_modules/
+.wrangler/
+playwright-report/
+test-results/
+*.log
+
+# Never publish licensing/admin or signing secrets
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+
+# Generated Python/web/test output
+__pycache__/
+*.py[cod]
+coverage/
+dist/

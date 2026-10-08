@@ -1,0 +1,62 @@
+{
+  "purpose": "branding-test-only",
+  "appName": "Shadow Modz",
+  "telegramUrl": "https://t.me/+BBimnHMiSvpiYTBl",
+  "requestedFixedKey": "SHADOWMODZ",
+  "licenseReplacementImplemented": false,
+  "nativeLicensingUnchanged": true,
+  "runtimeTested": false,
+  "packageName": "com.kos",
+  "resourceStringsChanged": 28,
+  "resourceColorsChanged": 7,
+  "composeColorLiteralsChanged": 33,
+  "launcherIconsChanged": 15,
+  "displayTextHookAdded": true,
+  "telegramContactCallbackAdded": true,
+  "nativeLibrarySha256": "34ff48596bddfedf841b269b2c2ae00ab46418dcf735da957ec82490686fc10d",
+  "nativeBridgeSourceSha256": "c886b784763a6d066fcc65023b570bbcc1ff440db07d25e22350d26bb2e5f83e",
+  "originalApkSha256": "07900492ca1a730ee37d7acac900fde25bde8dc0299253665935b743b1a677cb",
+  "outputApkSha256": "3629a2a4db1ad112565ed6cf63ec65b6a2fb52312e68e29ac2fe0edffa853fdc",
+  "outputApkBytes": 21882964,
+  "versionName": "3.7-VStable",
+  "minSdk": "24",
+  "targetSdk": "36",
+  "nativeLibrariesVerifiedUnchanged": {
+    "lib/arm64-v8a/libandroidx.graphics.path.so": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+    "lib/arm64-v8a/libkos.so": "34ff48596bddfedf841b269b2c2ae00ab46418dcf735da957ec82490686fc10d"
+  },
+  "protectedDexClassesVerifiedUnchanged": [
+    "Lcom/kos/Native/NativeBridge;",
+    "La/a/a/b;",
+    "La/a/a/c;",
+    "Landroidx/emoji2/text/c3;",
+    "Landroidx/emoji2/text/h3;",
+    "Landroidx/emoji2/text/ao0;"
+  ],
+  "alignmentVerified": {
+    "resources.arsc": 4022436,
+    "lib/arm64-v8a/libandroidx.graphics.path.so": 5570560,
+    "lib/arm64-v8a/libkos.so": 5586944
+  },
+  "apkSignatureVerification": [
+    "Verifies",
+    "Verified using v1 scheme (JAR signing): false",
+    "Verified using v2 scheme (APK Signature Scheme v2): true",
+    "Verified using v3 scheme (APK Signature Scheme v3): true",
+    "Verified using v3.1 scheme (APK Signature Scheme v3.1): false",
+    "Verified using v4 scheme (APK Signature Scheme v4): false",
+    "Verified for SourceStamp: false",
+    "Number of signers: 1",
+    "Signer #1 certificate DN: CN=Shadow Modz Branding Test, O=Local Test",
+    "Signer #1 certificate SHA-256 digest: e9d3cfe0bcb84d9a115f9a1baee8c473a5a1c94d64445bdfe6a559b259bca976",
+    "Signer #1 certificate SHA-1 digest: be058c9341fdbfdfba1917a333dadb7d1b522aca",
+    "Signer #1 certificate MD5 digest: 61ccd228c82c617977b2e41ac9de6fa9",
+    "Signer #1 key algorithm: RSA",
+    "Signer #1 key size (bits): 3072",
+    "Signer #1 public key SHA-256 digest: 210dbb9926d8aab1a09d0a4b9358282f089b2078bb296fb60cc4cd6ed1d7b6be",
+    "Signer #1 public key SHA-1 digest: 51eea7647d05a18b293811fe9fc7ae144167db60",
+    "Signer #1 public key MD5 digest: 7019265a9bff83cfadba424fe34b8726"
+  ],
+  "signingCertificate": "new-local-test-certificate-not-the-original",
+  "warning": "Branding test only. SHADOWMODZ is not configured as a working replacement licence. Native licence/integrity checks may reject this re-signed APK."
+}

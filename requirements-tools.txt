@@ -1,0 +1,5 @@
+# Optional local APK build tooling. No Android source project is recovered.
+jdk4py==21.0.8.2
+Pillow==12.3.0
+# Optional compiled-APK inspection:
+androguard==4.1.4
