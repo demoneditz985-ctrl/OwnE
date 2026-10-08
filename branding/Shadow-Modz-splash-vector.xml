@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+    <!-- Keep the original AnimatedVectorDrawable target and type intact. -->
+    <group android:name="rotation_group" android:pivotX="256" android:pivotY="256">
+        <path android:fillColor="#130C1E" android:strokeColor="#56338D"
+            android:strokeWidth="6" android:strokeLineJoin="round"
+            android:pathData="M256,82 L394,148 L368,327 L256,430 L144,327 L118,148 Z" />
+        <path android:fillColor="#A855F7"
+            android:pathData="M188,168 L332,168 L310,208 L210,208 L192,242 L294,242 L328,276 L288,344 L152,344 L176,304 L266,304 L284,272 L186,272 L152,238 Z" />
+    </group>
+</vector>

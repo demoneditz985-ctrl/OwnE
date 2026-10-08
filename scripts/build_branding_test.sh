@@ -27,6 +27,11 @@ printf '%s\n' \
   | sha256sum --check --status
 
 python3 -m unittest discover -s tests -v
+# Reuse the pinned tooling bootstrap without rebuilding the reported-crashing
+# bytecode-patched APK when preparing a resource-only diagnostic candidate.
+if [[ "${1:-}" == "--bootstrap-only" ]]; then
+  exit 0
+fi
 "$JAVA" -jar .tools/android/apktool.jar d -f KOS_3.7-VStable.apk -o .work/shadowmodz
 python3 scripts/rebrand_apk.py .work/shadowmodz --report .work/branding-report.json
 "$JAVA" -jar .tools/android/apktool.jar b .work/shadowmodz -o .work/shadow-unsigned.apk

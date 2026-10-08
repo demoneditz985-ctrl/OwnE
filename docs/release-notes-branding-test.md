@@ -1,5 +1,7 @@
 # Shadow Modz — branding test v0.1.0
 
+**USER-REPORTED CRASH: this historical build is not recommended. See the [resource-only compatibility-test candidate](https://github.com/demoneditz985-ctrl/OwnE/releases/tag/shadow-modz-compatibility-test-v0.1.1) for crash isolation; that candidate is not a confirmed crash fix either.**
+
 **Branding-only testing prerelease. `SHADOWMODZ` is NOT a working replacement licence key. The original native licensing is unchanged.**
 
 ## Downloads

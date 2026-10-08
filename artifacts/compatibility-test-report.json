@@ -1,0 +1,74 @@
+{
+  "purpose": "resource-only-crash-isolation-test",
+  "appName": "Shadow Modz",
+  "packageName": "com.kos",
+  "requestedFixedKey": "SHADOWMODZ",
+  "licenseReplacementImplemented": false,
+  "anyKeyModeImplemented": false,
+  "nativeLicensingUnchanged": true,
+  "runtimeTested": false,
+  "userReportedPreviousBuildCrash": true,
+  "startupCrashFixed": null,
+  "resourceStringsChanged": 25,
+  "resourceColorsChanged": 7,
+  "composeColorLiteralsChanged": 0,
+  "launcherIconsChanged": 15,
+  "displayTextHookAdded": false,
+  "telegramContactCallbackAdded": false,
+  "retainedAnimatedSplash": true,
+  "originalDexSha256": {
+    "classes.dex": "d54c11a18903c42b43120ee2bfa704c901daa02f6915d0a7234647286d020116"
+  },
+  "nativeLibrarySha256": "34ff48596bddfedf841b269b2c2ae00ab46418dcf735da957ec82490686fc10d",
+  "telegramUrl": "https://t.me/+BBimnHMiSvpiYTBl",
+  "telegramUrlLocation": "release-notes-only-no-new-in-app-callback",
+  "warning": "Crash-isolation candidate only; not an Android-verified crash fix. Original DEX and native licensing remain unchanged. SHADOWMODZ and any-key mode are not implemented.",
+  "originalApkSha256": "07900492ca1a730ee37d7acac900fde25bde8dc0299253665935b743b1a677cb",
+  "outputApkSha256": "8f788d27be121093cc252d4174f491511d982c62955054838367b335067cdfe3",
+  "outputApkBytes": 21565795,
+  "versionName": "3.7-VStable",
+  "minSdk": "24",
+  "targetSdk": "36",
+  "nativeLibrariesVerifiedUnchanged": {
+    "lib/arm64-v8a/libandroidx.graphics.path.so": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+    "lib/arm64-v8a/libkos.so": "34ff48596bddfedf841b269b2c2ae00ab46418dcf735da957ec82490686fc10d"
+  },
+  "protectedDexClassesVerifiedUnchanged": [
+    "Lcom/kos/Native/NativeBridge;",
+    "La/a/a/b;",
+    "La/a/a/c;",
+    "Landroidx/emoji2/text/c3;",
+    "Landroidx/emoji2/text/h3;",
+    "Landroidx/emoji2/text/ao0;"
+  ],
+  "alignmentVerified": {
+    "resources.arsc": 3717184,
+    "lib/arm64-v8a/libandroidx.graphics.path.so": 5259264,
+    "lib/arm64-v8a/libkos.so": 5275648
+  },
+  "apkSignatureVerification": [
+    "Verifies",
+    "Verified using v1 scheme (JAR signing): false",
+    "Verified using v2 scheme (APK Signature Scheme v2): true",
+    "Verified using v3 scheme (APK Signature Scheme v3): true",
+    "Verified using v3.1 scheme (APK Signature Scheme v3.1): false",
+    "Verified using v4 scheme (APK Signature Scheme v4): false",
+    "Verified for SourceStamp: false",
+    "Number of signers: 1",
+    "Signer #1 certificate DN: CN=Shadow Modz Branding Test, O=Local Test",
+    "Signer #1 certificate SHA-256 digest: e9d3cfe0bcb84d9a115f9a1baee8c473a5a1c94d64445bdfe6a559b259bca976",
+    "Signer #1 certificate SHA-1 digest: be058c9341fdbfdfba1917a333dadb7d1b522aca",
+    "Signer #1 certificate MD5 digest: 61ccd228c82c617977b2e41ac9de6fa9",
+    "Signer #1 key algorithm: RSA",
+    "Signer #1 key size (bits): 3072",
+    "Signer #1 public key SHA-256 digest: 210dbb9926d8aab1a09d0a4b9358282f089b2078bb296fb60cc4cd6ed1d7b6be",
+    "Signer #1 public key SHA-1 digest: 51eea7647d05a18b293811fe9fc7ae144167db60",
+    "Signer #1 public key MD5 digest: 7019265a9bff83cfadba424fe34b8726"
+  ],
+  "signingCertificate": "local-test-certificate-not-the-original",
+  "signingCertificateSha256": "e9d3cfe0bcb84d9a115f9a1baee8c473a5a1c94d64445bdfe6a559b259bca976",
+  "originalDexBytesVerifiedUnchanged": {
+    "classes.dex": "d54c11a18903c42b43120ee2bfa704c901daa02f6915d0a7234647286d020116"
+  },
+  "matchesPreviousBrandingTestCertificate": true
+}

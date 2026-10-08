@@ -20,7 +20,7 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def rebrand_strings(xml: str, app_name: str, telegram_cta: str) -> tuple[str, int]:
+def rebrand_strings(xml: str, app_name: str, telegram_cta: str | None) -> tuple[str, int]:
     count = 0
 
     def update(match: re.Match) -> str:
@@ -29,7 +29,7 @@ def rebrand_strings(xml: str, app_name: str, telegram_cta: str) -> tuple[str, in
         new_value = re.sub(r"\bKOS\b", app_name, value)
         if name == "app_name":
             new_value = app_name
-        elif name == "license_buy_prompt":
+        elif name == "license_buy_prompt" and telegram_cta is not None:
             new_value = telegram_cta
         if value != new_value:
             count += 1
@@ -107,13 +107,14 @@ def patch_telegram_cta(smali: str) -> str:
     return updated
 
 
-def patch_styles(xml: str) -> str:
+def patch_styles(xml: str, *, preserve_animated_splash: bool = False) -> str:
     def update(match: re.Match) -> str:
         opening, name, body, closing = match.groups()
         if name == "Theme.App.Starting":
             body = re.sub(
                 r'(<item name="windowSplashScreenAnimatedIcon">)[^<]+',
-                r"\1@mipmap/ic_launcher_foreground", body,
+                (r"\1@drawable/avd_8_ball_spin" if preserve_animated_splash
+                 else r"\1@mipmap/ic_launcher_foreground"), body,
             )
             body = re.sub(
                 r'(<item name="windowSplashScreenBackground">)[^<]+',

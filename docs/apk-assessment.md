@@ -1,5 +1,7 @@
 # APK assessment and remaining licensing blocker
 
+> **Runtime update:** the user reported that the first branding-test APK crashes; the Android version, crash point and exception have not been supplied. A resource-only diagnostic candidate now preserves the entire original DEX byte-for-byte. See [crash diagnosis](crash-diagnosis.md). Neither a startup fix nor a replacement licence is verified.
+
 ## Available input
 
 The repository contains `KOS_3.7-VStable.apk` and no original Gradle/Android project, native C/C++ sources, licence-server project, or original signing keystore. The owner's requested new fixed key is `SHADOWMODZ`.
